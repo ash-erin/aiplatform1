@@ -114,7 +114,7 @@ export const Header: React.FC<HeaderProps> = ({
             <img 
               src={logoImage}
               alt="Skà Logo" 
-              className="h-12 md:h-16 w-auto max-w-none"
+              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-175"
             />
           </button>
           <nav className="hidden md:flex items-center space-x-8">
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 key={item.name}
                 onClick={item.onClick}
-                className="text-white hover:text-[#ddb870] transition-colors text-lg font-medium px-4 py-2"
+                className="text-white hover:text-[#ddb870] transition-colors text-2xl font-medium px-6 py-3"
               >
                 {item.name}
               </button>
