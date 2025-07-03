@@ -121,7 +121,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center space-x-8 md:space-x-12">
           <button
-            onClick={() => window.location.reload()}
+            onClick={onLogoClick}
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
             <img 
