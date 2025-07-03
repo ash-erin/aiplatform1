@@ -14,9 +14,6 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
 
-// Import video as a static asset
-const headerVideoUrl = '/videos/header.mp4';
-
 type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
 function App() {
@@ -244,7 +241,7 @@ function App() {
           playsInline
           preload="metadata"
         >
-          <source src={headerVideoUrl} type="video/mp4" />
+          <source src="/videos/header.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         

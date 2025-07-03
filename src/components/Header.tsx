@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Movie } from '../types';
-import logoImage from '../assets/ChatGPT Image 26 giu 2025, 11_48_17.png';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -112,9 +111,9 @@ export const Header: React.FC<HeaderProps> = ({
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
             <img 
-              src={logoImage} 
+              src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
               alt="Skà Logo" 
-              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-150"
+              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-175"
             />
           </button>
           <nav className="hidden md:flex items-center space-x-8">
