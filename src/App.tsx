@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
-import { Hero } from './components/Hero';
 import { ContentRow } from './components/ContentRow';
 import { VideoPlayer } from './components/VideoPlayer';
 import { MovieModal } from './components/MovieModal';
