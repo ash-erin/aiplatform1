@@ -191,8 +191,8 @@ function App() {
         />
       ) : (
         <>
-          {/* Video Header Section - replaces the Hero component */}
-          <div className="relative h-screen">
+          {/* Video Header Section - fixed height */}
+          <div className="relative h-80 md:h-96 pt-16 md:pt-20">
             {/* Video background with overlay */}
             <div className="absolute inset-0">
               <video
@@ -214,18 +214,18 @@ function App() {
             {/* Content overlay */}
             <div className="relative z-10 h-full flex items-center">
               <div className="px-4 md:px-8 max-w-4xl">
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
                   AI Hackathon News
                 </h1>
-                <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl leading-relaxed drop-shadow-md">
+                <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
                   Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Content Rows Section */}
-          <div className="relative -mt-32 z-20">
+          {/* Content Rows Section - immediately visible below video */}
+          <div className="relative z-20 bg-[#081932]">
             {finalContentRows.map((row) => (
               <div
                 key={row.id}
@@ -234,7 +234,7 @@ function App() {
                   row.id === 'most-liked' ? 'most-liked-section' : 
                   undefined
                 }
-                className={row.id === 'mylist' ? 'pt-32' : 'pt-8'}
+                className={row.id === 'mylist' ? 'pt-8' : 'pt-4'}
               >
                 <ContentRow
                   title={row.title}

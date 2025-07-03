@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Movie } from '../types';
-import { VideoHeader } from './VideoHeader';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -117,35 +116,21 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[#081932]/90 backdrop-blur-md h-16' : 'h-24'
+      isScrolled ? 'bg-[#081932]/90 backdrop-blur-md' : 'bg-gradient-to-b from-[#081932]/80 to-transparent'
     }`}>
-      {/* Video Background - only visible when not scrolled */}
-      {!isScrolled && (
-        <VideoHeader
-          videoSrc="/videos/header.mp4"
-          className="absolute inset-0"
-          overlay={true}
-          overlayOpacity={0.7}
-        />
-      )}
-
-      <div className={`relative flex items-center justify-between px-4 md:px-8 transition-all duration-300 ${
-        isScrolled ? 'py-2 h-16' : 'py-4 h-24'
-      }`}>
+      <div className="flex items-center justify-between px-4 md:px-8 py-2">
         <div className="flex items-center space-x-8">
           <button
             onClick={() => window.location.reload()}
-            className="hover:opacity-80 transition-opacity flex items-center justify-center relative z-10"
+            className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
             <img 
               src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
               alt="Skà Logo" 
-              className={`w-auto max-w-none transition-all duration-300 ${
-                isScrolled ? 'h-10 scale-125' : 'h-14 scale-150'
-              }`}
+              className="h-14 w-auto max-w-none scale-150"
             />
           </button>
-          <nav className="hidden md:flex items-center space-x-6 relative z-10">
+          <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item, index) => (
               <button
                 key={item}
@@ -155,9 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
                   item === 'Popular' ? handlePopularClick : 
                   undefined
                 }
-                className={`text-white hover:text-gray-300 transition-all duration-300 ${
-                  isScrolled ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'
-                }`}
+                className="text-white hover:text-gray-300 transition-colors text-xl px-6 py-3"
               >
                 {item}
               </button>
@@ -165,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        <div className="flex items-center space-x-4 relative z-10">
+        <div className="flex items-center space-x-4">
           <div className="relative">
             {isSearchOpen ? (
               <div className="relative">
