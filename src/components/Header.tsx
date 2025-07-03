@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Movie } from '../types';
+import logoImage from '../assets/ChatGPT Image 26 giu 2025, 11_48_17.png';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -102,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[#081932]/90 backdrop-blur-md' : 'bg-gradient-to-b from-[#081932]/80 to-transparent'
+      isScrolled ? 'bg-[#081932]/95 backdrop-blur-md shadow-lg' : 'bg-[#081932]/80 backdrop-blur-sm'
     }`}>
       <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center space-x-8 md:space-x-12">
@@ -110,16 +111,18 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onLogoClick}
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
-            <div className="h-16 md:h-20 w-auto flex items-center justify-center bg-[#ddb870] rounded-lg px-4">
-              <span className="text-[#081932] font-bold text-2xl md:text-3xl">Skà</span>
-            </div>
+            <img 
+              src={logoImage}
+              alt="Skà Logo" 
+              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-175"
+            />
           </button>
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <button
                 key={item.name}
                 onClick={item.onClick}
-                className="text-white hover:text-gray-300 transition-colors text-2xl font-medium px-6 py-3"
+                className="text-white hover:text-[#ddb870] transition-colors text-2xl font-medium px-6 py-3"
               >
                 {item.name}
               </button>
@@ -178,7 +181,7 @@ export const Header: React.FC<HeaderProps> = ({
             ) : (
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="text-white hover:text-gray-300 transition-colors p-2"
+                className="text-white hover:text-[#ddb870] transition-colors p-2"
               >
                 <Search size={24} />
               </button>

@@ -13,6 +13,7 @@ import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/m
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
+import headerVideo from './assets/header.mp4';
 
 type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
@@ -33,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -231,25 +232,7 @@ function App() {
 
   return (
     <div className="bg-[#081932] min-h-screen">
-      {/* Fixed Video Header Background */}
-      <div className="fixed top-0 left-0 right-0 h-80 md:h-96 z-0">
-        <video
-          className="w-full h-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source src="/videos/header.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        
-        {/* Gradient overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
-      </div>
-
-      {/* Navigation Header - overlaid on video */}
+      {/* Navigation Header */}
       <Header
         onSearch={handleSearch}
         onLogoClick={handleLogoClick}
@@ -278,20 +261,41 @@ function App() {
         />
       ) : (
         <>
-          {/* Hero Content - overlaid on video */}
-          <div className="relative z-10 h-80 md:h-96 flex items-center">
-            <div className="px-4 md:px-8 max-w-4xl">
-              <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
-                AI Hackathon News
-              </h1>
-              <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
-                Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
-              </p>
+          {/* Video Header Section */}
+          <div className="relative pt-16 md:pt-20">
+            <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                key={headerVideo}
+              >
+                <source src={headerVideo} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+              {/* Gradient overlay for better text readability */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
+              
+              {/* Hero Content overlaid on video */}
+              <div className="absolute inset-0 flex items-center">
+                <div className="px-4 md:px-8 max-w-4xl">
+                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                    AI Hackathon News
+                  </h1>
+                  <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
+                    Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Content Rows Section - scrollable content below video header */}
-          <div className="relative z-20 bg-[#081932] min-h-screen">
+          {/* Content Rows Section */}
+          <div className="relative bg-[#081932]">
             {finalContentRows.map((row) => (
               <div
                 key={row.id}
