@@ -34,7 +34,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 100);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -262,7 +262,7 @@ function App() {
       ) : (
         <>
           {/* Video Header Section */}
-          <div className="relative pt-16 md:pt-20">
+          <div className="relative pt-20">
             <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
               <video
                 className="w-full h-full object-cover"
@@ -270,15 +270,14 @@ function App() {
                 muted
                 loop
                 playsInline
-                preload="auto"
-                key={headerVideo}
+                preload="metadata"
               >
                 <source src={headerVideo} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               
               {/* Gradient overlay for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/40 via-[#081932]/60 to-[#081932]/90" />
               
               {/* Hero Content overlaid on video */}
               <div className="absolute inset-0 flex items-center">
