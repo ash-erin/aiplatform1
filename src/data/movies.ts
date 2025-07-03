@@ -224,7 +224,7 @@ export const movies: Movie[] = [
   }
 ];
 
-// Content rows configuration
+// Content rows configuration - Fixed to use correct array indices
 export const contentRows: ContentRow[] = [
   {
     id: 'trending',
