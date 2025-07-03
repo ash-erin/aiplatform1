@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { Movie } from '../types';
+import { VideoHeader } from './VideoHeader';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -116,26 +117,21 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-[#081932]/90 backdrop-blur-md' : 'bg-gradient-to-b from-[#081932]/80 to-transparent'
+      isScrolled ? 'bg-[#081932]/90 backdrop-blur-md h-16' : 'h-24'
     }`}>
       {/* Video Background - only visible when not scrolled */}
       {!isScrolled && (
-        <div className="absolute inset-0 overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover opacity-30"
-          >
-            <source src="/videos/header-video.mp4" type="video/mp4" />
-            {/* Fallback for browsers that don't support video */}
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/60 to-[#081932]/80" />
-        </div>
+        <VideoHeader
+          videoSrc="/videos/header.mp4"
+          className="absolute inset-0"
+          overlay={true}
+          overlayOpacity={0.7}
+        />
       )}
 
-      <div className="relative flex items-center justify-between px-4 md:px-8 py-2">
+      <div className={`relative flex items-center justify-between px-4 md:px-8 transition-all duration-300 ${
+        isScrolled ? 'py-2 h-16' : 'py-4 h-24'
+      }`}>
         <div className="flex items-center space-x-8">
           <button
             onClick={() => window.location.reload()}
@@ -144,7 +140,9 @@ export const Header: React.FC<HeaderProps> = ({
             <img 
               src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
               alt="Skà Logo" 
-              className="h-14 w-auto max-w-none scale-150"
+              className={`w-auto max-w-none transition-all duration-300 ${
+                isScrolled ? 'h-10 scale-125' : 'h-14 scale-150'
+              }`}
             />
           </button>
           <nav className="hidden md:flex items-center space-x-6 relative z-10">
@@ -157,7 +155,9 @@ export const Header: React.FC<HeaderProps> = ({
                   item === 'Popular' ? handlePopularClick : 
                   undefined
                 }
-                className="text-white hover:text-gray-300 transition-colors text-xl px-6 py-3"
+                className={`text-white hover:text-gray-300 transition-all duration-300 ${
+                  isScrolled ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'
+                }`}
               >
                 {item}
               </button>
