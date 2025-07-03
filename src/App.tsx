@@ -5,8 +5,6 @@ import { ContentRow } from './components/ContentRow';
 import { VideoPlayer } from './components/VideoPlayer';
 import { MovieModal } from './components/MovieModal';
 import { SearchResults } from './components/SearchResults';
-import { CarouselNavigator } from './components/CarouselNavigator';
-import { KeyboardNavigation } from './components/KeyboardNavigation';
 import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/movies';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Movie } from './types';
@@ -182,12 +180,6 @@ function App() {
         onMovieSelect={handleMovieSelect}
       />
 
-      {/* Carousel Navigation */}
-      <CarouselNavigator />
-      
-      {/* Keyboard Navigation */}
-      <KeyboardNavigation />
-
       {searchQuery ? (
         <SearchResults
           query={searchQuery}
@@ -200,7 +192,7 @@ function App() {
       ) : (
         <>
           {/* Video Header Section - fixed height */}
-          <div className="relative h-80 md:h-96 pt-16 md:pt-20 video-header-section">
+          <div className="relative h-80 md:h-96 pt-16 md:pt-20">
             {/* Video background with overlay */}
             <div className="absolute inset-0">
               <video
@@ -242,7 +234,6 @@ function App() {
                   row.id === 'most-liked' ? 'most-liked-section' : 
                   undefined
                 }
-                data-carousel-section={row.id}
                 className={row.id === 'mylist' ? 'pt-8' : 'pt-4'}
               >
                 <ContentRow
