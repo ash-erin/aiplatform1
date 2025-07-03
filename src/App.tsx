@@ -172,6 +172,25 @@ function App() {
 
   return (
     <div className="bg-[#081932] min-h-screen">
+      {/* Fixed Video Header Background */}
+      <div className="fixed top-0 left-0 right-0 h-80 md:h-96 z-0">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src="/videos/header.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
+      </div>
+
+      {/* Navigation Header - overlaid on video */}
       <Header
         onSearch={handleSearch}
         onLogoClick={handleLogoClick}
@@ -191,41 +210,20 @@ function App() {
         />
       ) : (
         <>
-          {/* Video Header Section - fixed height */}
-          <div className="relative h-80 md:h-96 pt-16 md:pt-20">
-            {/* Video background with overlay */}
-            <div className="absolute inset-0">
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-              >
-                <source src="/videos/header.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              
-              {/* Gradient overlay for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/40 via-[#081932]/60 to-[#081932]/90" />
-            </div>
-
-            {/* Content overlay */}
-            <div className="relative z-10 h-full flex items-center">
-              <div className="px-4 md:px-8 max-w-4xl">
-                <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
-                  AI Hackathon News
-                </h1>
-                <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
-                  Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
-                </p>
-              </div>
+          {/* Hero Content - overlaid on video */}
+          <div className="relative z-10 h-80 md:h-96 flex items-center">
+            <div className="px-4 md:px-8 max-w-4xl">
+              <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+                AI Hackathon News
+              </h1>
+              <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
+                Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
+              </p>
             </div>
           </div>
 
-          {/* Content Rows Section - immediately visible below video */}
-          <div className="relative z-20 bg-[#081932]">
+          {/* Content Rows Section - scrollable content below video header */}
+          <div className="relative z-20 bg-[#081932] min-h-screen">
             {finalContentRows.map((row) => (
               <div
                 key={row.id}
