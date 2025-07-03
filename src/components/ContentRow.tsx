@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Play, Plus, Info, X, Heart } from 'lucide-react';
 import { Movie } from '../types';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -27,6 +27,11 @@ export const ContentRow: React.FC<ContentRowProps> = ({
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [hoveredMovie, setHoveredMovie] = useState<string | null>(null);
 
+  // Check scroll position on mount and when movies change
+  useEffect(() => {
+    handleScroll();
+  }, [movies]);
+
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;
     
@@ -47,26 +52,33 @@ export const ContentRow: React.FC<ContentRowProps> = ({
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
   };
 
+  // Don't render if no movies
+  if (!movies || movies.length === 0) return null;
+
   return (
     <div className="px-4 md:px-8 mb-8">
       <h2 className="text-white text-xl md:text-2xl font-semibold mb-4">{title}</h2>
       
       <div className="relative group">
+        {/* Left Arrow */}
         {canScrollLeft && (
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#081932]/80 hover:bg-[#081932] text-white p-2 rounded-r-md opacity-0 group-hover:opacity-100 transition-all duration-300"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-[#081932]/90 hover:bg-[#081932] text-white p-3 rounded-r-md opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            aria-label="Scroll left"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={28} />
           </button>
         )}
         
+        {/* Right Arrow */}
         {canScrollRight && (
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#081932]/80 hover:bg-[#081932] text-white p-2 rounded-l-md opacity-0 group-hover:opacity-100 transition-all duration-300"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-[#081932]/90 hover:bg-[#081932] text-white p-3 rounded-l-md opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            aria-label="Scroll right"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={28} />
           </button>
         )}
 
