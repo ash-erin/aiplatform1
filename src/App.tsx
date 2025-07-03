@@ -13,7 +13,9 @@ import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/m
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
-import headerVideo from './assets/header.mp4';
+
+// Import video as a static asset
+const headerVideoUrl = '/videos/header.mp4';
 
 type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
@@ -242,7 +244,7 @@ function App() {
           playsInline
           preload="metadata"
         >
-          <source src={headerVideo} type="video/mp4" />
+          <source src={headerVideoUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
