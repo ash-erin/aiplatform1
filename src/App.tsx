@@ -39,6 +39,16 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Listen for My List navigation event
+  useEffect(() => {
+    const handleMyListNavigation = () => {
+      setCurrentUserPage('mylist');
+    };
+
+    window.addEventListener('navigate-to-mylist', handleMyListNavigation);
+    return () => window.removeEventListener('navigate-to-mylist', handleMyListNavigation);
+  }, []);
+
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query.trim()) {

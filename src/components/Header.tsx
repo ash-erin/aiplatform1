@@ -50,26 +50,10 @@ export const Header: React.FC<HeaderProps> = ({
     setIsSearchOpen(false);
     setShowSuggestions(false);
     
-    const myListElement = document.getElementById('mylist-section');
-    if (myListElement) {
-      // Get the title element within the section
-      const titleElement = myListElement.querySelector('h2');
-      if (titleElement) {
-        // Calculate offset to show the title properly
-        const elementTop = titleElement.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementTop - 100; // 100px offset from top
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      } else {
-        // Fallback to section scroll
-        myListElement.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
+    // Navigate to My List page via user sidebar
+    if (onUserSidebarToggle) {
+      // Trigger navigation to My List page
+      window.dispatchEvent(new CustomEvent('navigate-to-mylist'));
     }
   };
 
