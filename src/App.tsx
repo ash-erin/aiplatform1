@@ -8,13 +8,12 @@ import { UserSidebar } from './components/UserSidebar';
 import { PreferencesPage } from './components/pages/PreferencesPage';
 import { ProfilePage } from './components/pages/ProfilePage';
 import { SettingsPage } from './components/pages/SettingsPage';
-import { MyListPage } from './components/pages/MyListPage';
 import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/movies';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
 
-type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
+type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings';
 
 function App() {
   const [currentMovie, setCurrentMovie] = useState<Movie | null>(null);
@@ -33,7 +32,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -193,10 +192,6 @@ function App() {
     }
   });
 
-  const handleMyListClick = () => {
-    setCurrentPage('mylist');
-  };
-
   // Render different pages based on current page
   if (currentPage === 'preferences') {
     return <PreferencesPage onBack={handleBackToHome} />;
@@ -216,29 +211,33 @@ function App() {
     return <SettingsPage onBack={handleBackToHome} />;
   }
 
-  if (currentPage === 'mylist') {
-    return (
-      <MyListPage
-        onBack={handleBackToHome}
-        myListMovies={allMyListMovies}
-        onPlay={handlePlay}
-        onAddToList={handleAddToList}
-        onMoreInfo={handleMoreInfo}
-        myList={myList}
-      />
-    );
-  }
-
   return (
     <div className="bg-[#081932] min-h-screen">
-      {/* Navigation Header */}
+      {/* Fixed Video Header Background */}
+      <div className="fixed top-0 left-0 right-0 h-80 md:h-96 z-0">
+        <video
+          className="w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src="/videos/header.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
+      </div>
+
+      {/* Navigation Header - overlaid on video */}
       <Header
         onSearch={handleSearch}
         onLogoClick={handleLogoClick}
         isScrolled={isScrolled}
         searchSuggestions={searchSuggestions}
         onMovieSelect={handleMovieSelect}
-        onMyListClick={handleMyListClick}
       />
 
       {/* User Sidebar */}
@@ -260,47 +259,20 @@ function App() {
         />
       ) : (
         <>
-          {/* Video Header Section */}
-          <div className="relative pt-16 md:pt-20">
-            <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
-              <video
-                className="w-full h-full object-cover"
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                onError={(e) => {
-                  console.error('Video failed to load:', e);
-                  // Hide video element if it fails to load
-                  e.currentTarget.style.display = 'none';
-                }}
-                onLoadStart={() => console.log('Video loading started')}
-                onCanPlay={() => console.log('Video can play')}
-              >
-                <source src="/videos/header.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              
-              {/* Gradient overlay for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/30 via-[#081932]/50 to-[#081932]/80" />
-              
-              {/* Hero Content overlaid on video */}
-              <div className="absolute inset-0 flex items-center">
-                <div className="px-4 md:px-8 max-w-4xl">
-                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-                    AI Hackathon News
-                  </h1>
-                  <p className="text-base md:text-lg lg:text-xl text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
-                    Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
-                  </p>
-                </div>
-              </div>
+          {/* Hero Content - overlaid on video */}
+          <div className="relative z-10 h-80 md:h-96 flex items-center">
+            <div className="px-4 md:px-8 max-w-4xl">
+              <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+                AI Hackathon News
+              </h1>
+              <p className="text-base md:text-lg text-white/90 max-w-2xl leading-relaxed drop-shadow-md">
+                Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
+              </p>
             </div>
           </div>
 
-          {/* Content Rows Section */}
-          <div className="relative bg-[#081932]">
+          {/* Content Rows Section - scrollable content below video header */}
+          <div className="relative z-20 bg-[#081932] min-h-screen">
             {finalContentRows.map((row) => (
               <div
                 key={row.id}
