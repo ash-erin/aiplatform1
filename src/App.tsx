@@ -13,7 +13,6 @@ import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/m
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
-import headerVideo from './assets/header.mp4';
 
 type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
@@ -271,9 +270,15 @@ function App() {
                 loop
                 playsInline
                 preload="auto"
-                key={headerVideo}
+                onError={(e) => {
+                  console.error('Video failed to load:', e);
+                  // Hide video element if it fails to load
+                  e.currentTarget.style.display = 'none';
+                }}
+                onLoadStart={() => console.log('Video loading started')}
+                onCanPlay={() => console.log('Video can play')}
               >
-                <source src={headerVideo} type="video/mp4" />
+                <source src="/videos/header.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
               
