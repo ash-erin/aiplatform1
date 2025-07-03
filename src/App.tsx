@@ -191,15 +191,41 @@ function App() {
         />
       ) : (
         <>
-          <Hero
-            movie={featuredMovie}
-            onPlay={handlePlay}
-            onAddToList={handleAddToList}
-            onMoreInfo={handleMoreInfo}
-            myList={myList}
-          />
+          {/* Video Header Section - replaces the Hero component */}
+          <div className="relative h-screen">
+            {/* Video background with overlay */}
+            <div className="absolute inset-0">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source src="/videos/header.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              
+              {/* Gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/40 via-[#081932]/60 to-[#081932]/90" />
+            </div>
 
-          <div className="relative -mt-16 z-10">
+            {/* Content overlay */}
+            <div className="relative z-10 h-full flex items-center">
+              <div className="px-4 md:px-8 max-w-4xl">
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                  AI Hackathon News
+                </h1>
+                <p className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl leading-relaxed drop-shadow-md">
+                  Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Content Rows Section */}
+          <div className="relative -mt-32 z-20">
             {finalContentRows.map((row) => (
               <div
                 key={row.id}
@@ -208,7 +234,7 @@ function App() {
                   row.id === 'most-liked' ? 'most-liked-section' : 
                   undefined
                 }
-                className={row.id === 'mylist' ? 'pt-16' : ''}
+                className={row.id === 'mylist' ? 'pt-32' : 'pt-8'}
               >
                 <ContentRow
                   title={row.title}
