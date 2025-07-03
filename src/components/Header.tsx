@@ -118,8 +118,8 @@ export const Header: React.FC<HeaderProps> = ({
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-[#081932]/90 backdrop-blur-md' : 'bg-gradient-to-b from-[#081932]/80 to-transparent'
     }`}>
-      <div className="flex items-center justify-between px-4 md:px-8 py-2">
-        <div className="flex items-center space-x-8">
+      <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4">
+        <div className="flex items-center space-x-8 md:space-x-12">
           <button
             onClick={() => window.location.reload()}
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
@@ -127,10 +127,10 @@ export const Header: React.FC<HeaderProps> = ({
             <img 
               src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
               alt="Skà Logo" 
-              className="h-14 w-auto max-w-none scale-150"
+              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-175"
             />
           </button>
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <button
                 key={item}
@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({
                   item === 'Popular' ? handlePopularClick : 
                   undefined
                 }
-                className="text-white hover:text-gray-300 transition-colors text-xl px-6 py-3"
+                className="text-white hover:text-gray-300 transition-colors text-2xl font-medium px-6 py-3"
               >
                 {item}
               </button>
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                     onFocus={() => searchQuery && setShowSuggestions(true)}
                     placeholder="Search titles..."
-                    className="bg-[#081932]/80 border border-gray-600 rounded px-3 py-1 text-white text-sm w-64 focus:outline-none focus:border-[#ddb870]"
+                    className="bg-[#081932]/80 border border-gray-600 rounded px-3 py-2 text-white text-base w-64 focus:outline-none focus:border-[#ddb870]"
                   />
                 </form>
                 
@@ -201,7 +201,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => setIsSearchOpen(true)}
                 className="text-white hover:text-gray-300 transition-colors p-2"
               >
-                <Search size={20} />
+                <Search size={24} />
               </button>
             )}
           </div>
