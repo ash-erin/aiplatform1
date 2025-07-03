@@ -118,11 +118,28 @@ export const Header: React.FC<HeaderProps> = ({
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-[#081932]/90 backdrop-blur-md' : 'bg-gradient-to-b from-[#081932]/80 to-transparent'
     }`}>
-      <div className="flex items-center justify-between px-4 md:px-8 py-2">
+      {/* Video Background - only visible when not scrolled */}
+      {!isScrolled && (
+        <div className="absolute inset-0 overflow-hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-30"
+          >
+            <source src="/videos/header-video.mp4" type="video/mp4" />
+            {/* Fallback for browsers that don't support video */}
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-b from-[#081932]/60 to-[#081932]/80" />
+        </div>
+      )}
+
+      <div className="relative flex items-center justify-between px-4 md:px-8 py-2">
         <div className="flex items-center space-x-8">
           <button
             onClick={() => window.location.reload()}
-            className="hover:opacity-80 transition-opacity flex items-center justify-center"
+            className="hover:opacity-80 transition-opacity flex items-center justify-center relative z-10"
           >
             <img 
               src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
@@ -130,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="h-14 w-auto max-w-none scale-150"
             />
           </button>
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-6 relative z-10">
             {navItems.map((item, index) => (
               <button
                 key={item}
@@ -148,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 relative z-10">
           <div className="relative">
             {isSearchOpen ? (
               <div className="relative">
