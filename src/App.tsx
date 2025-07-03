@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
+import { Hero } from './components/Hero';
 import { ContentRow } from './components/ContentRow';
 import { VideoPlayer } from './components/VideoPlayer';
 import { MovieModal } from './components/MovieModal';
 import { SearchResults } from './components/SearchResults';
-import { UserSidebar } from './components/UserSidebar';
-import { PreferencesPage } from './components/pages/PreferencesPage';
-import { ProfilePage } from './components/pages/ProfilePage';
-import { SettingsPage } from './components/pages/SettingsPage';
-import { MyListPage } from './components/pages/MyListPage';
 import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/movies';
 import { useLocalStorage } from './hooks/useLocalStorage';
-import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
-
-type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
 function App() {
   const [currentMovie, setCurrentMovie] = useState<Movie | null>(null);
@@ -26,10 +19,6 @@ function App() {
   const [searchSuggestions, setSearchSuggestions] = useState<Movie[]>([]);
   const [movieLikes, setMovieLikes] = useLocalStorage<Record<string, number>>('project-likes', {});
   const [userLikes, setUserLikes] = useLocalStorage<string[]>('project-user-likes', []);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<CurrentPage>('home');
-  
-  const { user, isLoggedIn, login, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,7 +66,9 @@ function App() {
   };
 
   const handleLogoClick = () => {
-    setIsSidebarOpen(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setSearchQuery('');
+    setSearchResults([]);
   };
 
   const handleLike = (movie: Movie) => {
@@ -96,20 +87,6 @@ function App() {
         [movie.id]: (prev[movie.id] || movie.likes || 0) + 1
       }));
     }
-  };
-
-  const handleNavigation = (page: string) => {
-    if (page === 'logout') {
-      logout();
-      setCurrentPage('home');
-    } else {
-      setCurrentPage(page as CurrentPage);
-    }
-  };
-
-  const handleBackToHome = () => {
-    setCurrentPage('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Update movies with current like counts
@@ -193,42 +170,6 @@ function App() {
     }
   });
 
-  const handleMyListClick = () => {
-    setCurrentPage('mylist');
-  };
-
-  // Render different pages based on current page
-  if (currentPage === 'preferences') {
-    return <PreferencesPage onBack={handleBackToHome} />;
-  }
-
-  if (currentPage === 'profile') {
-    return (
-      <ProfilePage 
-        onBack={handleBackToHome} 
-        isLoggedIn={isLoggedIn}
-        onLogin={login}
-      />
-    );
-  }
-
-  if (currentPage === 'settings') {
-    return <SettingsPage onBack={handleBackToHome} />;
-  }
-
-  if (currentPage === 'mylist') {
-    return (
-      <MyListPage
-        onBack={handleBackToHome}
-        myListMovies={allMyListMovies}
-        onPlay={handlePlay}
-        onAddToList={handleAddToList}
-        onMoreInfo={handleMoreInfo}
-        myList={myList}
-      />
-    );
-  }
-
   return (
     <div className="bg-[#081932] min-h-screen">
       {/* Fixed Video Header Background */}
@@ -256,15 +197,6 @@ function App() {
         isScrolled={isScrolled}
         searchSuggestions={searchSuggestions}
         onMovieSelect={handleMovieSelect}
-        onMyListClick={handleMyListClick}
-      />
-
-      {/* User Sidebar */}
-      <UserSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        onNavigate={handleNavigation}
-        isLoggedIn={isLoggedIn}
       />
 
       {searchQuery ? (
