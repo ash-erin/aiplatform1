@@ -279,7 +279,7 @@ function App() {
             onAddToList={handleAddToList}
             onMoreInfo={handleMoreInfo}
             myList={myList}
-            videoUrl="/assets/header.mp4"
+            videoUrl="/videos/header.mp4"
           />
 
           {/* Content Rows Section */}
