@@ -8,6 +8,7 @@ interface HeaderProps {
   isScrolled: boolean;
   searchSuggestions?: Movie[];
   onMovieSelect?: (movie: Movie) => void;
+  onUserSidebarToggle?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -15,7 +16,8 @@ export const Header: React.FC<HeaderProps> = ({
   onLogoClick,
   isScrolled,
   searchSuggestions = [],
-  onMovieSelect
+  onMovieSelect,
+  onUserSidebarToggle
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -112,6 +114,14 @@ export const Header: React.FC<HeaderProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLogoClick = () => {
+    if (onUserSidebarToggle) {
+      onUserSidebarToggle();
+    } else {
+      window.location.reload();
+    }
+  };
+
   const navItems = ['Home', 'Popular', 'My List'];
 
   return (
@@ -121,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center justify-between px-4 md:px-8 py-3 md:py-4">
         <div className="flex items-center space-x-8 md:space-x-12">
           <button
-            onClick={() => window.location.reload()}
+            onClick={handleLogoClick}
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
             <img 

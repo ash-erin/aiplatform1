@@ -5,6 +5,11 @@ import { ContentRow } from './components/ContentRow';
 import { VideoPlayer } from './components/VideoPlayer';
 import { MovieModal } from './components/MovieModal';
 import { SearchResults } from './components/SearchResults';
+import { UserSidebar } from './components/user-space/UserSidebar';
+import { PreferencesPage } from './components/user-space/PreferencesPage';
+import { ProfilePage } from './components/user-space/ProfilePage';
+import { SettingsPage } from './components/user-space/SettingsPage';
+import { MyListPage } from './components/user-space/MyListPage';
 import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/movies';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Movie } from './types';
@@ -19,6 +24,11 @@ function App() {
   const [searchSuggestions, setSearchSuggestions] = useState<Movie[]>([]);
   const [movieLikes, setMovieLikes] = useLocalStorage<Record<string, number>>('project-likes', {});
   const [userLikes, setUserLikes] = useLocalStorage<string[]>('project-user-likes', []);
+  
+  // User space state
+  const [isUserSidebarOpen, setIsUserSidebarOpen] = useState(false);
+  const [currentUserPage, setCurrentUserPage] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useLocalStorage<boolean>('project-logged-in', false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,6 +97,28 @@ function App() {
         [movie.id]: (prev[movie.id] || movie.likes || 0) + 1
       }));
     }
+  };
+
+  // User space handlers
+  const handleUserSidebarToggle = () => {
+    setIsUserSidebarOpen(!isUserSidebarOpen);
+  };
+
+  const handleUserNavigation = (page: string) => {
+    if (page === 'logout') {
+      setIsLoggedIn(false);
+      setCurrentUserPage(null);
+    } else {
+      setCurrentUserPage(page);
+    }
+  };
+
+  const handleBackToMain = () => {
+    setCurrentUserPage(null);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
   };
 
   // Update movies with current like counts
@@ -177,8 +209,48 @@ function App() {
     description: 'Stay updated with the latest developments in artificial intelligence, hackathons, and cutting-edge technology innovations.'
   };
 
+  // Render user space pages
+  if (currentUserPage === 'mylist') {
+    return (
+      <MyListPage
+        onBack={handleBackToMain}
+        myListMovies={allMyListMovies}
+        onPlay={handlePlay}
+        onAddToList={handleAddToList}
+        onMoreInfo={handleMoreInfo}
+        myList={myList}
+      />
+    );
+  }
+
+  if (currentUserPage === 'preferences') {
+    return <PreferencesPage onBack={handleBackToMain} />;
+  }
+
+  if (currentUserPage === 'profile') {
+    return (
+      <ProfilePage
+        onBack={handleBackToMain}
+        isLoggedIn={isLoggedIn}
+        onLogin={handleLogin}
+      />
+    );
+  }
+
+  if (currentUserPage === 'settings') {
+    return <SettingsPage onBack={handleBackToMain} />;
+  }
+
   return (
     <div className="bg-[#081932] min-h-screen">
+      {/* User Sidebar */}
+      <UserSidebar
+        isOpen={isUserSidebarOpen}
+        onClose={() => setIsUserSidebarOpen(false)}
+        onNavigate={handleUserNavigation}
+        isLoggedIn={isLoggedIn}
+      />
+
       {/* Navigation Header */}
       <Header
         onSearch={handleSearch}
@@ -186,6 +258,7 @@ function App() {
         isScrolled={isScrolled}
         searchSuggestions={searchSuggestions}
         onMovieSelect={handleMovieSelect}
+        onUserSidebarToggle={handleUserSidebarToggle}
       />
 
       {searchQuery ? (
@@ -206,7 +279,7 @@ function App() {
             onAddToList={handleAddToList}
             onMoreInfo={handleMoreInfo}
             myList={myList}
-            videoUrl="/videos/header.mp4"
+            videoUrl="/assets/header.mp4"
           />
 
           {/* Content Rows Section */}
