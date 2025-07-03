@@ -8,6 +8,7 @@ interface HeaderProps {
   isScrolled: boolean;
   searchSuggestions?: Movie[];
   onMovieSelect?: (movie: Movie) => void;
+  onMyListClick?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -15,7 +16,8 @@ export const Header: React.FC<HeaderProps> = ({
   onLogoClick,
   isScrolled,
   searchSuggestions = [],
-  onMovieSelect
+  onMovieSelect,
+  onMyListClick
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,27 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
     setIsSearchOpen(false);
     setShowSuggestions(false);
     
-    const myListElement = document.getElementById('mylist-section');
-    if (myListElement) {
-      // Get the title element within the section
-      const titleElement = myListElement.querySelector('h2');
-      if (titleElement) {
-        // Calculate offset to show the title properly
-        const elementTop = titleElement.getBoundingClientRect().top + window.pageYOffset;
-        const offsetPosition = elementTop - 100; // 100px offset from top
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      } else {
-        // Fallback to section scroll
-        myListElement.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    }
+    onMyListClick?.();
   };
 
   const handlePopularClick = () => {
@@ -112,7 +94,11 @@ export const Header: React.FC<HeaderProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navItems = ['Home', 'Popular', 'My List'];
+  const navItems = [
+    { name: 'Home', onClick: handleHomeClick },
+    { name: 'Popular', onClick: handlePopularClick },
+    { name: 'My List', onClick: handleMyListClick }
+  ];
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -124,25 +110,18 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onLogoClick}
             className="hover:opacity-80 transition-opacity flex items-center justify-center"
           >
-            <img 
-              src="/src/assets/ChatGPT Image 26 giu 2025, 11_48_17.png" 
-              alt="Skà Logo" 
-              className="h-16 md:h-20 w-auto max-w-none scale-150 md:scale-175"
-            />
+            <div className="h-16 md:h-20 w-auto flex items-center justify-center bg-[#ddb870] rounded-lg px-4">
+              <span className="text-[#081932] font-bold text-2xl md:text-3xl">Skà</span>
+            </div>
           </button>
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <button
-                key={item}
-                onClick={
-                  item === 'Home' ? handleHomeClick :
-                  item === 'My List' ? handleMyListClick : 
-                  item === 'Popular' ? handlePopularClick : 
-                  undefined
-                }
+                key={item.name}
+                onClick={item.onClick}
                 className="text-white hover:text-gray-300 transition-colors text-2xl font-medium px-6 py-3"
               >
-                {item}
+                {item.name}
               </button>
             ))}
           </nav>

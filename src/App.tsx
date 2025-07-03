@@ -8,12 +8,13 @@ import { UserSidebar } from './components/UserSidebar';
 import { PreferencesPage } from './components/pages/PreferencesPage';
 import { ProfilePage } from './components/pages/ProfilePage';
 import { SettingsPage } from './components/pages/SettingsPage';
+import { MyListPage } from './components/pages/MyListPage';
 import { featuredMovie, contentRows, movies, getMostLikedMovies } from './data/movies';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { useAuth } from './hooks/useAuth';
 import { Movie } from './types';
 
-type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings';
+type CurrentPage = 'home' | 'preferences' | 'profile' | 'settings' | 'mylist';
 
 function App() {
   const [currentMovie, setCurrentMovie] = useState<Movie | null>(null);
@@ -192,6 +193,10 @@ function App() {
     }
   });
 
+  const handleMyListClick = () => {
+    setCurrentPage('mylist');
+  };
+
   // Render different pages based on current page
   if (currentPage === 'preferences') {
     return <PreferencesPage onBack={handleBackToHome} />;
@@ -209,6 +214,19 @@ function App() {
 
   if (currentPage === 'settings') {
     return <SettingsPage onBack={handleBackToHome} />;
+  }
+
+  if (currentPage === 'mylist') {
+    return (
+      <MyListPage
+        onBack={handleBackToHome}
+        myListMovies={allMyListMovies}
+        onPlay={handlePlay}
+        onAddToList={handleAddToList}
+        onMoreInfo={handleMoreInfo}
+        myList={myList}
+      />
+    );
   }
 
   return (
@@ -238,6 +256,7 @@ function App() {
         isScrolled={isScrolled}
         searchSuggestions={searchSuggestions}
         onMovieSelect={handleMovieSelect}
+        onMyListClick={handleMyListClick}
       />
 
       {/* User Sidebar */}
